@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class CarSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    images = serializers.ImageField(allow_null=True)
     class Meta:
         model = Car
         fields = ('id', 'make', 'model', 'year', 'description', 'img_url', 'images', 'owner')
