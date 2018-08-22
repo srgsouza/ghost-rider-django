@@ -15,12 +15,12 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 class Car(models.Model):
-    make = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
+    make = models.CharField(max_length=200)
+    model = models.CharField(max_length=200)
     year = models.IntegerField()
-    img_url = models.CharField(max_length=100)
+    img_url = models.CharField(max_length=500)
     # images = models.ImageField(upload_to='car_image', blank=True)
-    description = models.CharField(max_length=280)
+    description = models.CharField(max_length=800)
     owner = models.ForeignKey('auth.User', related_name='cars', on_delete=models.CASCADE)
 
     def __str__(self):
