@@ -2,13 +2,30 @@ from rest_framework import serializers
 from .models import Car, Comment
 from django.contrib.auth.models import User
 
+
+
+####
+from rest_framework.validators import UniqueValidator
+
+#####
+
 class UserSerializer(serializers.ModelSerializer):
-    cars = serializers.PrimaryKeyRelatedField(many=True, queryset=Car.objects.all())
-    comments = serializers.PrimaryKeyRelatedField(many=True, queryset=Comment.objects.all())
+    cars = serializers.PrimaryKeyRelatedField(many=True, default=[], allow_null=True, queryset=Car.objects.all())
+    comments = serializers.PrimaryKeyRelatedField(many=True, default=[], allow_null=True, queryset=Comment.objects.all())
+
+    username = serializers.CharField(
+            validators=[UniqueValidator(queryset=User.objects.all())]
+            )
+    password = serializers.CharField(min_length=8)
+
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'], validated_data['password'])
+        return user
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'cars', 'comments')
+        fields = ('id', 'username', 'password', 'cars', 'comments' )
 
 
 class CarSerializer(serializers.HyperlinkedModelSerializer):

@@ -14,22 +14,27 @@ from django.views.decorators.csrf import csrf_exempt
 # To integrate built-in users
 from django.contrib.auth.models import User
 from cars.serializers import UserSerializer
-from rest_framework import permissions
+from rest_framework import permissions, status
 from cars.permissions import IsOwnerOrReadOnly
 
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
 
-## Disabling CSRF
-# from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+###
+class UserCreate(generics.ListCreateAPIView):
+    """ 
+    Creates the user. 
+    """
 
-# class CsrfExemptSessionAuthentication(SessionAuthentication):
-
-#     def enforce_csrf(self, request):
-#         return  # To not perform the csrf check previously happening
-
-# authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
-## Disabling CSRF
+    def post(self, request, format='json'):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            print('serializer is valid!!')
+            user = serializer.save()
+            if user:
+                return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_201_CREATED)
+####
 
 def get_csrf(request):
   token = get_token(request)

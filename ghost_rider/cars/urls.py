@@ -16,6 +16,7 @@ urlpatterns = [
     # url('api/api-auth/', include( 'rest_framework.urls', namespace='rest_framework')),
     # url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
+    url(r'^api/users/$', views.UserCreate.as_view(), name='account-create'),
 
   # url(r'^users/$', views.UserList.as_view()),
   # url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()), 
