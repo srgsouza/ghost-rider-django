@@ -19,7 +19,7 @@ class Car(models.Model):
     model = models.CharField(max_length=100)
     year = models.IntegerField()
     img_url = models.CharField(max_length=100)
-    images = models.ImageField(upload_to='car_image', blank=True)
+    # images = models.ImageField(upload_to='car_image', blank=True)
     description = models.CharField(max_length=280)
     owner = models.ForeignKey('auth.User', related_name='cars', on_delete=models.CASCADE)
 
